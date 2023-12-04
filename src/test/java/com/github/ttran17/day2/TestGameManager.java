@@ -51,7 +51,7 @@ public class TestGameManager
 
         List<String> lines = AdventUtils.readLines( inputFile );
 
-        List<CompleteGame> completeGames = GameManager.consume( lines );
+        List<CompleteGame> completeGames = GameManager.getCompleteGames( lines );
         Assertions.assertEquals( 100, completeGames.size( ) );
     }
 

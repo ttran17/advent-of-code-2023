@@ -10,7 +10,7 @@ import java.util.Optional;
 public class GameManager
 {
 
-    protected static List<CompleteGame> consume( List<String> lines )
+    protected static List<CompleteGame> getCompleteGames( List<String> lines )
     {
         List<CompleteGame> completeGames = new ArrayList<>( );
         for ( String line : lines )
@@ -20,7 +20,7 @@ public class GameManager
         return completeGames;
     }
 
-    protected static boolean consume( CompleteGame completeGame, BallGameBounds gameBounds )
+    protected static boolean isLegalCompleteGame( CompleteGame completeGame, BallGameBounds gameBounds )
     {
         for ( BallGame game : completeGame.ballGames( ) )
         {
@@ -34,12 +34,12 @@ public class GameManager
 
     protected static int consume( List<String> lines, BallGameBounds gameBounds )
     {
-        List<CompleteGame> completeGames = consume( lines );
+        List<CompleteGame> completeGames = getCompleteGames( lines );
 
         int sum = 0;
         for ( CompleteGame completeGame : completeGames )
         {
-            if ( consume( completeGame, gameBounds ) )
+            if ( isLegalCompleteGame( completeGame, gameBounds ) )
             {
                 sum += completeGame.gameNumber( );
             }
@@ -49,7 +49,7 @@ public class GameManager
 
     protected static int computePower( List<String> lines )
     {
-        List<CompleteGame> completeGames = consume( lines );
+        List<CompleteGame> completeGames = getCompleteGames( lines );
 
         int sum = 0;
         for ( CompleteGame completeGame : completeGames )
@@ -89,7 +89,7 @@ public class GameManager
 
     protected static int computePowerFunctional( List<String> lines )
     {
-        List<CompleteGame> completeGames = consume( lines );
+        List<CompleteGame> completeGames = getCompleteGames( lines );
 
         int sum = 0;
         for ( CompleteGame completeGame : completeGames )
