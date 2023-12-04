@@ -1,9 +1,7 @@
 package com.github.ttran17.day1;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,6 @@ import com.github.ttran17.AdventUtils;
 
 public class TestWorkshop
 {
-    private static final Logger logger = Logger.getLogger( TestWorkshop.class.getName( ) );
 
     @Test
     public void charTest( )
@@ -35,11 +32,7 @@ public class TestWorkshop
     @Test
     public void submitOneStar( ) throws IOException
     {
-        File inputFile = AdventUtils.getInputFile( 1 );
-
-        List<String> lines = AdventUtils.readLines( inputFile );
-
-        logger.info( ( ) -> String.format( "submit: %d", Workshop.consume( lines ) ) );
+        AdventUtils.submit( 1, ( lines ) -> Workshop.consume( lines ) );
     }
 
     @Test
@@ -65,10 +58,6 @@ public class TestWorkshop
     @Test
     public void submitTwoStar( ) throws IOException
     {
-        File inputFile = AdventUtils.getInputFile( 1 );
-
-        List<String> lines = AdventUtils.readLines( inputFile );
-
-        logger.info( ( ) -> String.format( "submit: %d", Workshop.consumeDigitsAndWords( lines ) ) );
+        AdventUtils.submit( 1, ( lines ) -> Workshop.consumeDigitsAndWords( lines ) );
     }
 }

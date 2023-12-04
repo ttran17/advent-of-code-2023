@@ -3,7 +3,6 @@ package com.github.ttran17.day2;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import com.github.ttran17.AdventUtils;
 
 public class TestGameManager
 {
-    private static final Logger logger = Logger.getLogger( TestGameManager.class.getName( ) );
 
     @Test
     public void testGameNumber( )
@@ -60,36 +58,24 @@ public class TestGameManager
     @Test
     public void submitOneStar( ) throws IOException
     {
-        File inputFile = AdventUtils.getInputFile( 2 );
-
-        List<String> lines = AdventUtils.readLines( inputFile );
-
         BallGameBounds gameBounds = new BallGameBounds(
                 new BallGame( 12, BallColor.RED ),
                 new BallGame( 13, BallColor.GREEN ),
                 new BallGame( 14, BallColor.BLUE )
         );
 
-        logger.info( ( ) -> String.format( "submit: %d", GameManager.consume( lines, gameBounds ) ) );
+        AdventUtils.submit( 2, ( lines ) -> GameManager.consume( lines, gameBounds ) );
     }
 
     @Test
     public void submitTwoStar( ) throws IOException
     {
-        File inputFile = AdventUtils.getInputFile( 2 );
-
-        List<String> lines = AdventUtils.readLines( inputFile );
-
-        logger.info( ( ) -> String.format( "submit: %d", GameManager.computePower( lines ) ) );
+        AdventUtils.submit( 2, ( lines ) -> GameManager.computePower( lines ) );
     }
 
     @Test
     public void submitFancyTwoStar( ) throws IOException
     {
-        File inputFile = AdventUtils.getInputFile( 2 );
-
-        List<String> lines = AdventUtils.readLines( inputFile );
-
-        logger.info( ( ) -> String.format( "submit: %d", GameManager.computePowerFunctional( lines ) ) );
+        AdventUtils.submit( 2, ( lines ) -> GameManager.computePowerFunctional( lines ) );
     }
 }
