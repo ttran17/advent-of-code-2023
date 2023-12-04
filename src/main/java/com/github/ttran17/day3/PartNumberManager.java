@@ -21,6 +21,7 @@ public class PartNumberManager
 
         return tokenLines;
     }
+
     protected static int consume( List<String> lines )
     {
         List<List<SchematicToken>> tokenLines = toSchematicTokenLines( lines );
@@ -71,7 +72,7 @@ public class PartNumberManager
             List<SchematicToken.Symbol> symbols = parse( currentLine, symbolPredicate, symbolMapper );
             for ( SchematicToken.Symbol symbol : symbols )
             {
-                if ( symbol.getSymbol() != '*')
+                if ( symbol.getSymbol( ) != '*' )
                 {
                     continue;
                 }

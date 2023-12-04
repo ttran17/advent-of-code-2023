@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.github.ttran17.ElfUtils;
+
 public class Elf
 {
-    protected static int getColonIndex( String line )
-    {
-        return line.indexOf( ':' );
-    }
 
     protected static int getGameNumber( String line )
     {
-        int colonIndex = getColonIndex( line );
+        int colonIndex = ElfUtils.getColonIndex( line );
         return Integer.parseInt( line.substring( 5, colonIndex ) );
     }
 
@@ -22,7 +20,7 @@ public class Elf
         List<BallGame> ballGames = new ArrayList<>( );
 
         // Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-        int colonIndex = getColonIndex( line );
+        int colonIndex = ElfUtils.getColonIndex( line );
         String gamesString = line.substring( colonIndex + 1 );
         String[] games = gamesString.split( ";" );
 
