@@ -30,7 +30,7 @@ public class TestWorkshop
     }
 
     @Test
-    public void submitOneStar( ) throws IOException
+    public void submitOneStar( )
     {
         AdventUtils.submit( 1, ( lines ) -> Workshop.consume( lines ) );
     }
@@ -56,7 +56,7 @@ public class TestWorkshop
     }
 
     @Test
-    public void submitTwoStar( ) throws IOException
+    public void submitTwoStar( )
     {
         AdventUtils.submit( 1, ( lines ) -> Workshop.consumeDigitsAndWords( lines ) );
     }

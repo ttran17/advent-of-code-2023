@@ -8,15 +8,22 @@ import java.util.stream.Collectors;
 
 public class PartNumberManager
 {
-    protected static int consume( List<String> lines )
+    private static List<List<SchematicToken>> toSchematicTokenLines( List<String> lines )
     {
         List<List<SchematicToken>> tokenLines = new ArrayList<>( );
+
         tokenLines.add( new ArrayList<>( ) ); // Padding
         for ( String line : lines )
         {
             tokenLines.add( Elf.consume( line ) );
         }
         tokenLines.add( new ArrayList<>( ) ); // Padding
+
+        return tokenLines;
+    }
+    protected static int consume( List<String> lines )
+    {
+        List<List<SchematicToken>> tokenLines = toSchematicTokenLines( lines );
 
         int sum = 0;
         for ( int lineNum = 1; lineNum <= tokenLines.size( ) - 2; lineNum++ )
@@ -47,13 +54,7 @@ public class PartNumberManager
 
     protected static int consumeGearRatio( List<String> lines )
     {
-        List<List<SchematicToken>> tokenLines = new ArrayList<>( );
-        tokenLines.add( new ArrayList<>( ) ); // Padding
-        for ( String line : lines )
-        {
-            tokenLines.add( Elf.consume( line ) );
-        }
-        tokenLines.add( new ArrayList<>( ) ); // Padding
+        List<List<SchematicToken>> tokenLines = toSchematicTokenLines( lines );
 
         int sum = 0;
         for ( int lineNum = 1; lineNum <= tokenLines.size( ) - 2; lineNum++ )

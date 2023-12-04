@@ -84,13 +84,13 @@ public class TestPartNumberManager
     }
 
     @Test
-    public void submitOneStar( ) throws IOException
+    public void submitOneStar( )
     {
         AdventUtils.submit( 3, ( lines ) -> PartNumberManager.consume( lines ) );
     }
 
     @Test
-    public void submitTwoStar( ) throws IOException
+    public void submitTwoStar( )
     {
         AdventUtils.submit( 3, ( lines ) -> PartNumberManager.consumeGearRatio( lines ) );
     }

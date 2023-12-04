@@ -56,7 +56,7 @@ public class TestGameManager
     }
 
     @Test
-    public void submitOneStar( ) throws IOException
+    public void submitOneStar( )
     {
         BallGameBounds gameBounds = new BallGameBounds(
                 new BallGame( 12, BallColor.RED ),
@@ -68,13 +68,13 @@ public class TestGameManager
     }
 
     @Test
-    public void submitTwoStar( ) throws IOException
+    public void submitTwoStar( )
     {
         AdventUtils.submit( 2, ( lines ) -> GameManager.computePower( lines ) );
     }
 
     @Test
-    public void submitFancyTwoStar( ) throws IOException
+    public void submitFancyTwoStar( )
     {
         AdventUtils.submit( 2, ( lines ) -> GameManager.computePowerFunctional( lines ) );
     }
