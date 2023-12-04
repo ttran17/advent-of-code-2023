@@ -71,6 +71,11 @@ public class PartNumberManager
             List<SchematicToken.Symbol> symbols = parse( currentLine, symbolPredicate, symbolMapper );
             for ( SchematicToken.Symbol symbol : symbols )
             {
+                if ( symbol.getSymbol() != '*')
+                {
+                    continue;
+                }
+
                 List<SchematicToken.Number> adjacentNumbers = new ArrayList<>( );
                 for ( SchematicToken.Number number : numbers )
                 {
