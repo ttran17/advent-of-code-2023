@@ -14,10 +14,10 @@ public class TestLottery
         String line = "Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1";
         ScratchCard scratchCard = Elf.consume( line );
 
-        Assertions.assertEquals( 3, scratchCard.getCardNumber() );
-        Assertions.assertEquals( 2, scratchCard.getNumberOfMatchedWinningNumbers() );
-        Assertions.assertTrue( scratchCard.getWinningNumbers().contains( 1 ));
-        Assertions.assertTrue( scratchCard.getPlayedNumbers().contains( 72 ));
+        Assertions.assertEquals( 3, scratchCard.getCardNumber( ) );
+        Assertions.assertEquals( 2, scratchCard.getNumberOfMatchedWinningNumbers( ) );
+        Assertions.assertTrue( scratchCard.getWinningNumbers( ).contains( 1 ) );
+        Assertions.assertTrue( scratchCard.getPlayedNumbers( ).contains( 72 ) );
     }
 
     @Test
