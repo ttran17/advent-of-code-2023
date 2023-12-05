@@ -1,7 +1,6 @@
 package com.github.ttran17.day2;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;

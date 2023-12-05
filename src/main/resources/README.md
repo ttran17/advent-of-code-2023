@@ -1,0 +1,1 @@
+curl --cookie "session=<session-id>" https://adventofcode.com/2023/day/<the-day>/input

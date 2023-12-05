@@ -59,4 +59,49 @@ public class TestWorkshop
     {
         AdventUtils.submit( 1, ( lines ) -> Workshop.consumeDigitsAndWords( lines ) );
     }
+
+    @Test
+    public void submitOneStarNonUnionElf( )
+    {
+        List<NonUnionElf.NumberKey> keys = List.of(
+                new NonUnionElf.NumberKey( "1", 1 ),
+                new NonUnionElf.NumberKey( "2", 2 ),
+                new NonUnionElf.NumberKey( "3", 3 ),
+                new NonUnionElf.NumberKey( "4", 4 ),
+                new NonUnionElf.NumberKey( "5", 5 ),
+                new NonUnionElf.NumberKey( "6", 6 ),
+                new NonUnionElf.NumberKey( "7", 7 ),
+                new NonUnionElf.NumberKey( "8", 8 ),
+                new NonUnionElf.NumberKey( "9", 9 )
+        );
+
+        AdventUtils.submit( 1, ( lines ) -> NonUnionElf.consume( lines, keys ) );
+    }
+
+    @Test
+    public void submitTwoStarNonUnionElf( )
+    {
+        List<NonUnionElf.NumberKey> keys = List.of(
+                new NonUnionElf.NumberKey( "1", 1 ),
+                new NonUnionElf.NumberKey( "2", 2 ),
+                new NonUnionElf.NumberKey( "3", 3 ),
+                new NonUnionElf.NumberKey( "4", 4 ),
+                new NonUnionElf.NumberKey( "5", 5 ),
+                new NonUnionElf.NumberKey( "6", 6 ),
+                new NonUnionElf.NumberKey( "7", 7 ),
+                new NonUnionElf.NumberKey( "8", 8 ),
+                new NonUnionElf.NumberKey( "9", 9 ),
+                new NonUnionElf.NumberKey( "one", 1 ),
+                new NonUnionElf.NumberKey( "two", 2 ),
+                new NonUnionElf.NumberKey( "three", 3 ),
+                new NonUnionElf.NumberKey( "four", 4 ),
+                new NonUnionElf.NumberKey( "five", 5 ),
+                new NonUnionElf.NumberKey( "six", 6 ),
+                new NonUnionElf.NumberKey( "seven", 7 ),
+                new NonUnionElf.NumberKey( "eight", 8 ),
+                new NonUnionElf.NumberKey( "nine", 9 )
+        );
+
+        AdventUtils.submit( 1, ( lines ) -> NonUnionElf.consume( lines, keys ) );
+    }
 }
