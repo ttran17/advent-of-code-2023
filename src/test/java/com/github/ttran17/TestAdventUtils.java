@@ -20,6 +20,22 @@ public class TestAdventUtils
         return AdventUtils.RESOURCES.resolve( String.valueOf( day ) ).resolve( "testInput.txt" ).toFile( );
     }
 
+    public static void testSubmit( int day, AdventUtils.Submission submission, int assertedValue )
+    {
+        File testInputFile = TestAdventUtils.getTestInputFile( day );
+
+        try
+        {
+            List<String> lines = AdventUtils.readLines( testInputFile );
+
+            Assertions.assertEquals( assertedValue, submission.accept( lines ) );
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
+
     @Test
     public void ready( ) throws IOException
     {

@@ -6,4 +6,9 @@ public class ElfUtils
     {
         return line.indexOf( ':' );
     }
+
+    public static int getPipeIndex( String line )
+    {
+        return line.indexOf( '|' );
+    }
 }
