@@ -21,45 +21,44 @@ public class AdventUtils
         return RESOURCES.resolve( String.valueOf( day ) ).resolve( "input.txt" ).toFile( );
     }
 
-    public static List<String> readLines( File inputFile ) throws IOException
+    public static List<String> readLines( File inputFile )
     {
         List<String> lines = new ArrayList<>( );
         readLines( inputFile, ( line ) -> lines.add( line ) );
         return lines;
     }
 
-    public static void readLines( File inputFile, Consumer<String> consumer ) throws IOException
+    public static void readLines( File inputFile, Consumer<String> consumer )
     {
-        int nLines = 0;
-
-        BufferedReader reader = new BufferedReader( new FileReader( inputFile ) );
-        String line = reader.readLine( );
-        nLines++;
-        while ( line != null )
+        try ( BufferedReader reader = new BufferedReader( new FileReader( inputFile ) ) )
         {
-            consumer.accept( line );
-            line = reader.readLine( );
-            nLines++;
-        }
-        reader.close( );
+            int nLines = 0;
 
-        logger.info( String.format( "Read in %d lines", nLines - 1 ) );
+            String line = reader.readLine( );
+            nLines++;
+            while ( line != null )
+            {
+                consumer.accept( line );
+                line = reader.readLine( );
+                nLines++;
+            }
+
+            logger.info( String.format( "Read in %d lines", nLines - 1 ) );
+        }
+        catch ( IOException e )
+        {
+            logger.severe( ( ) -> "Encountered: " + e.getMessage( ) );
+            throw new RuntimeException( e );
+        }
     }
 
     public static void submit( int day, Submission submission )
     {
         File inputFile = AdventUtils.getInputFile( day );
 
-        try
-        {
-            List<String> lines = AdventUtils.readLines( inputFile );
+        List<String> lines = AdventUtils.readLines( inputFile );
 
-            logger.info( ( ) -> String.format( "submit: %d", submission.accept( lines ) ) );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( e );
-        }
+        logger.info( ( ) -> String.format( "submit: %d", submission.accept( lines ) ) );
     }
 
     public interface Submission

@@ -24,16 +24,9 @@ public class TestAdventUtils
     {
         File testInputFile = TestAdventUtils.getTestInputFile( day );
 
-        try
-        {
-            List<String> lines = AdventUtils.readLines( testInputFile );
+        List<String> lines = AdventUtils.readLines( testInputFile );
 
-            Assertions.assertEquals( assertedValue, submission.accept( lines ) );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( e );
-        }
+        Assertions.assertEquals( assertedValue, submission.accept( lines ) );
     }
 
     @Test
@@ -49,14 +42,14 @@ public class TestAdventUtils
     }
 
     @Test
-    public void logListOfLines( ) throws IOException
+    public void logListOfLines( )
     {
         File inputFile = AdventUtils.getInputFile( 1 );
         Assertions.assertDoesNotThrow( ( ) -> AdventUtils.readLines( inputFile, ( line ) -> logger.info( ( ) -> String.format( "Line is: %s", line ) ) ) );
     }
 
     @Test
-    public void buildListOfLines( ) throws IOException
+    public void buildListOfLines( )
     {
         List<String> lines = new ArrayList<>( );
         File inputFile = AdventUtils.getInputFile( 1 );

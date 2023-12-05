@@ -74,7 +74,7 @@ public class TestPartNumberManager
     }
 
     @Test
-    public void testOneStar( ) throws IOException
+    public void testOneStar( )
     {
         File testInputFile = TestAdventUtils.getTestInputFile( 3 );
 

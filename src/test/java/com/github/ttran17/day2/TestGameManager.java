@@ -45,7 +45,7 @@ public class TestGameManager
     }
 
     @Test
-    public void testOneStar( ) throws IOException
+    public void testOneStar( )
     {
         File inputFile = AdventUtils.getInputFile( 2 );
 
