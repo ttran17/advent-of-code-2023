@@ -20,7 +20,7 @@ public class TestAdventUtils
         return AdventUtils.RESOURCES.resolve( String.valueOf( day ) ).resolve( "testInput.txt" ).toFile( );
     }
 
-    public static void testSubmit( int day, AdventUtils.Submission submission, int assertedValue )
+    public static void testSubmit( int day, AdventUtils.Submission submission, long assertedValue )
     {
         File testInputFile = TestAdventUtils.getTestInputFile( day );
 

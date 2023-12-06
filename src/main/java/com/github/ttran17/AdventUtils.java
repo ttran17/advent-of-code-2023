@@ -63,6 +63,6 @@ public class AdventUtils
 
     public interface Submission
     {
-        int accept( List<String> lines );
+        long accept( List<String> lines );
     }
 }
