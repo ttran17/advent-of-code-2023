@@ -1,6 +1,6 @@
 **/.idea
 
 **/input.txt
-**/testInput.txt
+**/testInput*.txt
 
 **/target

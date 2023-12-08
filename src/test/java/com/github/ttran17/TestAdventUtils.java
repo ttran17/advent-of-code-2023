@@ -17,12 +17,23 @@ public class TestAdventUtils
 
     public static File getTestInputFile( int day )
     {
-        return AdventUtils.RESOURCES.resolve( String.valueOf( day ) ).resolve( "testInput.txt" ).toFile( );
+        return getTestInputFile( day, 1 );
+    }
+
+    public static File getTestInputFile( int day, int version )
+    {
+        String testFilename = version > 1 ? String.format( "testInput-%d.txt", version ) : "testInput.txt";
+        return AdventUtils.RESOURCES.resolve( String.valueOf( day ) ).resolve( testFilename ).toFile( );
     }
 
     public static void testSubmit( int day, AdventUtils.Submission submission, long assertedValue )
     {
-        File testInputFile = TestAdventUtils.getTestInputFile( day );
+        testSubmit( day, 1, submission, assertedValue );
+    }
+
+    public static void testSubmit( int day, int version, AdventUtils.Submission submission, long assertedValue )
+    {
+        File testInputFile = TestAdventUtils.getTestInputFile( day, version );
 
         List<String> lines = AdventUtils.readLines( testInputFile );
 
