@@ -87,13 +87,10 @@ public class Universe
         private int row;
         private int col;
 
-        private char c;
-
-        public Galaxy( int row, int col, char c )
+        public Galaxy( int row, int col  )
         {
             this.row = row;
             this.col = col;
-            this.c = c;
         }
 
         public int getRow( )
@@ -115,16 +112,6 @@ public class Universe
         {
             this.col = col;
         }
-
-        public char getC( )
-        {
-            return c;
-        }
-
-        public void setC( char c )
-        {
-            this.c = c;
-        }
     }
 
     protected static Universe build( List<String> lines )
@@ -143,7 +130,7 @@ public class Universe
                 char c = line.charAt( col );
                 if ( c == '#' )
                 {
-                    Universe.Galaxy galaxy = new Galaxy( row, col, c );
+                    Universe.Galaxy galaxy = new Galaxy( row, col );
                     galaxiesByRow.computeIfAbsent( row, key -> new ArrayList<>( ) ).add( galaxy );
                     galaxiesByCol.computeIfAbsent( col, key -> new ArrayList<>( ) ).add( galaxy );
                 }
