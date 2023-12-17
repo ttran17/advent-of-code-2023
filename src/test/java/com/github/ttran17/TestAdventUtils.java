@@ -26,6 +26,17 @@ public class TestAdventUtils
         return AdventUtils.RESOURCES.resolve( String.valueOf( day ) ).resolve( testFilename ).toFile( );
     }
 
+    public static List<String> getTestLines( int day )
+    {
+        return getTestLines( day, 1 );
+    }
+
+    public static List<String> getTestLines( int day, int version )
+    {
+        File testInputFile = getTestInputFile( day, version );
+        return AdventUtils.readLines( testInputFile );
+    }
+
     public static void testSubmit( int day, AdventUtils.Submission submission, long assertedValue )
     {
         testSubmit( day, 1, submission, assertedValue );

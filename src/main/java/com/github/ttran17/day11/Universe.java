@@ -153,7 +153,7 @@ public class Universe
         List<List<Galaxy>> galaxyList = new LinkedList<>( );
         for ( int i = 0; i < maxIndex; i++ )
         {
-            List<Galaxy> list = galaxyMap.getOrDefault( i, new ArrayList( ) );
+            List<Galaxy> list = galaxyMap.getOrDefault( i, new ArrayList<>( ) );
             galaxyList.add( list );
         }
         return galaxyList;
