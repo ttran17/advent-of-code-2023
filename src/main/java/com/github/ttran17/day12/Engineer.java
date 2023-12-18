@@ -21,7 +21,7 @@ public class Engineer
         long sum = 0;
         for ( SpringRow springRow : springRows )
         {
-            sum += reconstruct( springRow );
+            sum += reconstruct( springRow ).size();
         }
 
         return sum;
@@ -29,52 +29,18 @@ public class Engineer
 
     protected static long reconstructUnfolded( List<String> lines )
     {
-        List<Long> folded = new ArrayList<>( );
         List<SpringRow> springRows = SpringRow.parse( lines );
-        for ( SpringRow springRow : springRows )
-        {
-            folded.add( reconstruct( springRow ) );
-        }
-
-        List<Long> unfoldedOnce = new ArrayList<>( );
-        List<SpringRow> unfoldedOnceSpringRows = SpringRow.unfold( lines, 1 );
-        for ( SpringRow springRow : unfoldedOnceSpringRows )
-        {
-            unfoldedOnce.add( reconstruct( springRow ) );
-        }
-
-        List<Long> unfoldedTwice = new ArrayList<>( );
-        List<SpringRow> unfoldedTwiceSpringRows = SpringRow.unfold( lines, 2 );
-        for ( SpringRow springRow : unfoldedTwiceSpringRows )
-        {
-            unfoldedTwice.add( reconstruct( springRow ) );
-        }
 
         long sum = 0;
-        Iterator<Long> foldedIterator = folded.iterator( );
-        Iterator<Long> unfoldedOnceIterator = unfoldedOnce.iterator( );
-        Iterator<Long> unfoldedTwiceIterator = unfoldedTwice.iterator( );
-        Iterator<SpringRow> rowIterator = springRows.iterator( );
-        while ( foldedIterator.hasNext( ) )
+        for ( SpringRow springRow : springRows )
         {
-            long unfolded1 = unfoldedOnceIterator.next( );
-            long base = foldedIterator.next( );
-            long factor = unfolded1 / base;
-
-            sum += ( base * factor * factor * factor * factor );
-
-            long unfolded2 = unfoldedTwiceIterator.next( );
-            SpringRow springRow = rowIterator.next( );
-            if ( unfolded2 != base * factor * factor )
-            {
-                System.out.println( StringUtils.join( springRow.states, "" ) + ": " + base * factor * factor + " vs " + unfolded2 );
-            }
+            sum += reconstruct( springRow ).size();
         }
 
         return sum;
     }
 
-    protected static long reconstruct( SpringRow springRow )
+    protected static List<List<Arrangement>> reconstruct( SpringRow springRow )
     {
         List<List<Range>> startLists = new ArrayList<>( );
 
@@ -120,7 +86,7 @@ public class Engineer
 
         List<List<Arrangement>> potentialArrangements = getPotentialArrangements( startLists );
 
-        return countValidArrangements( springRow, potentialArrangements );
+        return getValidArrangements( springRow, potentialArrangements );
     }
 
     protected static List<List<SpringState>> getMinimalGroups( SpringRow springRow )
@@ -219,43 +185,47 @@ public class Engineer
         return potentialArrangements;
     }
 
-    protected static long countValidArrangements( SpringRow springRow, List<List<Arrangement>> potentialArrangements )
+    protected static List<List<Arrangement>> getValidArrangements( SpringRow springRow, List<List<Arrangement>> potentialArrangements )
     {
-        Iterator<List<Arrangement>> iterator = potentialArrangements.iterator( );
-        while ( iterator.hasNext( ) )
+        List<List<Arrangement>> validArrangments = new ArrayList<>( );
+        for ( List<Arrangement> arrangement : potentialArrangements )
         {
-            List<Arrangement> arrangement = iterator.next( );
-
-            SpringState[] guess = new SpringState[springRow.states.length];
-            for ( int i = 0; i < springRow.states.length; i++ )
+            boolean valid = isValidArrangement( springRow, arrangement );
+            if ( valid )
             {
-                guess[i] = SpringState.operational;
+                validArrangments.add( arrangement );
             }
+        }
+        return validArrangments;
+    }
 
-            for ( Arrangement a : arrangement )
-            {
-                for ( int i = a.start; i <= a.end; i++ )
-                {
-                    guess[i] = SpringState.damaged;
-                }
-            }
+    protected static boolean isValidArrangement( SpringRow springRow, List<Arrangement> arrangement )
+    {
+        SpringState[] guess = new SpringState[springRow.states.length];
+        for ( int i = 0; i < springRow.states.length; i++ )
+        {
+            guess[i] = SpringState.operational;
+        }
 
-            boolean valid = true;
-            for ( int i = 0; i < springRow.states.length; i++ )
+        for ( Arrangement a : arrangement )
+        {
+            for ( int i = a.start; i <= a.end; i++ )
             {
-                valid = springRow.states[i] == SpringState.unknown || springRow.states[i] == SpringState.operational && guess[i] == SpringState.operational || springRow.states[i] == SpringState.damaged && guess[i] == SpringState.damaged;
-                if ( !valid )
-                {
-                    break;
-                }
-            }
-            if ( !valid )
-            {
-                iterator.remove( );
+                guess[i] = SpringState.damaged;
             }
         }
 
-        return potentialArrangements.size( );
+        boolean valid = true;
+        for ( int i = 0; i < springRow.states.length; i++ )
+        {
+            valid = springRow.states[i] == SpringState.unknown || springRow.states[i] == SpringState.operational && guess[i] == SpringState.operational || springRow.states[i] == SpringState.damaged && guess[i] == SpringState.damaged;
+            if ( !valid )
+            {
+                break;
+            }
+        }
+
+        return valid;
     }
 
     public record Range( int span, int start, int end ) { }

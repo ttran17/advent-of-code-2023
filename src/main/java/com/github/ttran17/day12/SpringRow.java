@@ -1,7 +1,6 @@
 package com.github.ttran17.day12;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SpringRow
@@ -41,17 +40,18 @@ public class SpringRow
         }
     }
 
-    protected final int row;
     protected final SpringState[] states;
     protected final int[] damageCount;
-    protected final int totalDamaged;
 
-    public SpringRow( int row, SpringState[] states, int[] damageCount )
+    protected final int[] rootIndex;
+    protected final int[] damageGroupIndex;
+
+    public SpringRow( SpringState[] states, int[] damageCount, int[] rootIndex,int[] damageGroupIndex )
     {
-        this.row = row;
         this.states = states;
         this.damageCount = damageCount;
-        this.totalDamaged = Arrays.stream( damageCount ).sum( );
+        this.rootIndex = rootIndex;
+        this.damageGroupIndex = damageGroupIndex;
     }
 
     protected static List<SpringRow> parse( List<String> lines )
@@ -60,13 +60,13 @@ public class SpringRow
 
         for ( int row = 0; row < lines.size( ); row++ )
         {
-            springRows.add( parse( row, lines.get( row ) ) );
+            springRows.add( parse( lines.get( row ) ) );
         }
 
         return springRows;
     }
 
-    protected static SpringRow parse( int row, String line )
+    protected static SpringRow parse( String line )
     {
         String[] tokens = line.trim( ).split( " " );
 
@@ -84,7 +84,7 @@ public class SpringRow
             damageCount[d] = Integer.parseInt( damageTokens[d] );
         }
 
-        return new SpringRow( row, states, damageCount );
+        return new SpringRow( states, damageCount, new int[0], new int[0] );
     }
 
     protected static List<SpringRow> unfold( List<String> lines, int unfoldCount )
@@ -93,22 +93,29 @@ public class SpringRow
 
         for ( int row = 0; row < lines.size( ); row++ )
         {
-            springRows.add( unfold( row, lines.get( row ), unfoldCount ) );
+            springRows.add( unfold( lines.get( row ), unfoldCount ) );
         }
 
         return springRows;
     }
 
-    protected static SpringRow unfold( int row, String line, int unfoldCount )
+    protected static SpringRow unfold( String line, int unfoldCount )
     {
         String[] tokens = line.trim( ).split( " " );
 
         String unfoldedStateTokens = tokens[0];
         String unfoldedDamagedTokens = tokens[1];
-        for (int k = 0; k < unfoldCount; k++)
+        for ( int k = 0; k < unfoldCount; k++ )
         {
             unfoldedStateTokens = unfoldedStateTokens + "?" + tokens[0];
             unfoldedDamagedTokens = unfoldedDamagedTokens + "," + tokens[1];
+        }
+
+        int[] rootIndex = new int[unfoldCount + 1];
+        rootIndex[0] = -1;
+        for ( int k = 1; k <= unfoldCount; k++ )
+        {
+            rootIndex[k] = (rootIndex[k-1] + 1) + tokens[0].length();
         }
 
         SpringState[] states = new SpringState[unfoldedStateTokens.length( )];
@@ -124,6 +131,15 @@ public class SpringRow
             damageCount[d] = Integer.parseInt( damageTokens[d] );
         }
 
-        return new SpringRow( row, states, damageCount );
+        int[] damageIndex = new int[unfoldCount + 1];
+        damageIndex[0] = 0;
+        int nDamageTokens = tokens[1].split(",").length;
+        for ( int k = 1; k <= unfoldCount; k++ )
+        {
+            damageIndex[k] = damageIndex[k-1] + nDamageTokens;
+        }
+
+        return new SpringRow( states, damageCount, rootIndex, damageIndex );
     }
+
 }
