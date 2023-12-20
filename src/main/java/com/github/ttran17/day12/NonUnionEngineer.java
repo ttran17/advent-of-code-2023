@@ -41,7 +41,7 @@ public class NonUnionEngineer
 
         long total = 0;
 
-        Map<Pointer, Pointer> currentCache = new LinkedHashMap<>( );
+        Map<Pointer, Map<Pointer, Pointer>> currentCache = new LinkedHashMap<>( );
         for ( int k = unfoldCount; k > -1; k-- )
         {
 
@@ -51,7 +51,7 @@ public class NonUnionEngineer
         return total;
     }
 
-    protected static long reconstruct( Map<Pointer, Pointer> cache, SpringState[] states, int rootIndex, int[] damageCount, int damageGroupIndex )
+    protected static long reconstruct( Map<Pointer, Map<Pointer, Pointer>> cache, SpringState[] states, int rootIndex, int[] damageCount, int damageGroupIndex )
     {
         long total = 0;
 
@@ -83,16 +83,11 @@ public class NonUnionEngineer
                 {
                     // found a valid arrangement
                     previous.total = 1;
-                    //                    previous.parent.descendants.add( previous );
-//                    previous.finished = true;
 
                     previous = previous.parent;
                     while ( previous != null )
                     {
                         previous.total++;
-//                        previous.finished = true;
-                        //                        previous.parent.descendants.add( previous );
-                        //                        previous.parent.descendants.addAll( previous.descendants );
                         previous = previous.parent;
                     }
                     total++;
@@ -115,19 +110,7 @@ public class NonUnionEngineer
                         if ( previous.damageWithinGroupIndex + 1 == damageCount[previous.damageGroupIndex] )
                         {
                             Pointer current = new Pointer( currentCharIndex, DamageLaydown.NOT_STARTED, previous.damageGroupIndex + 1, -1, operational );
-                            current.parent = previous;
-                            if ( !cache.containsKey( current ) )
-                            {
-                                cache.put( current, current );
-                                previous.next.add( current );
-                                queue.offer( current );
-                                current.parent = previous;
-                            }
-                            else
-                            {
-                                current.finished = true;
-                                queue.offer( cache.get( current ) );
-                            }
+                            updateCacheAndQueue( cache, previous, current, queue );
                             continue;
                         }
                         // bad branch;
@@ -136,19 +119,7 @@ public class NonUnionEngineer
                     }
 
                     Pointer current = new Pointer( currentCharIndex, DamageLaydown.NOT_STARTED, previous.damageGroupIndex, previous.damageWithinGroupIndex, operational );
-                    current.parent = previous;
-                    if ( !cache.containsKey( current ) )
-                    {
-                        cache.put( current, current );
-                        previous.next.add( current );
-                        queue.offer( current );
-                        current.parent = previous;
-                    }
-                    else
-                    {
-                        current.finished = true;
-                        queue.offer( cache.get( current ) );
-                    }
+                    updateCacheAndQueue( cache, previous, current, queue );
                     continue;
                 }
 
@@ -160,54 +131,18 @@ public class NonUnionEngineer
                         {
                             {
                                 Pointer current = new Pointer( currentCharIndex, DamageLaydown.ACTIVE, previous.damageGroupIndex, previous.damageWithinGroupIndex + 1, damaged );
-                                current.parent = previous;
-                                if ( !cache.containsKey( current ) )
-                                {
-                                    cache.put( current, current );
-                                    previous.next.add( current );
-                                    queue.offer( current );
-                                    current.parent = previous;
-                                }
-                                else
-                                {
-                                    current.finished = true;
-                                    queue.offer( cache.get( current ) );
-                                }
+                                updateCacheAndQueue( cache, previous, current, queue );
                             }
 
                             {
                                 Pointer current = new Pointer( currentCharIndex, DamageLaydown.NOT_STARTED, previous.damageGroupIndex, previous.damageWithinGroupIndex, operational );
-                                current.parent = previous;
-                                if ( !cache.containsKey( current ) )
-                                {
-                                    cache.put( current, current );
-                                    previous.next.add( current );
-                                    queue.offer( current );
-                                    current.parent = previous;
-                                }
-                                else
-                                {
-                                    current.finished = true;
-                                    queue.offer( cache.get( current ) );
-                                }
+                                updateCacheAndQueue( cache, previous, current, queue );
                             }
                             continue;
                         }
 
                         Pointer current = new Pointer( currentCharIndex, DamageLaydown.NOT_STARTED, previous.damageGroupIndex, previous.damageWithinGroupIndex, operational );
-                        current.parent = previous;
-                        if ( !cache.containsKey( current ) )
-                        {
-                            cache.put( current, current );
-                            previous.next.add( current );
-                            queue.offer( current );
-                            current.parent = previous;
-                        }
-                        else
-                        {
-                            current.finished = true;
-                            queue.offer( cache.get( current ) );
-                        }
+                        updateCacheAndQueue( cache, previous, current, queue );
                         continue;
                     }
 
@@ -216,36 +151,12 @@ public class NonUnionEngineer
                         if ( previous.damageWithinGroupIndex + 1 == damageCount[previous.damageGroupIndex] )
                         {
                             Pointer current = new Pointer( currentCharIndex, DamageLaydown.NOT_STARTED, previous.damageGroupIndex + 1, -1, operational );
-                            current.parent = previous;
-                            if ( !cache.containsKey( current ) )
-                            {
-                                cache.put( current, current );
-                                previous.next.add( current );
-                                queue.offer( current );
-                                current.parent = previous;
-                            }
-                            else
-                            {
-                                current.finished = true;
-                                queue.offer( cache.get( current ) );
-                            }
+                            updateCacheAndQueue( cache, previous, current, queue );
                             continue;
                         }
 
                         Pointer current = new Pointer( currentCharIndex, DamageLaydown.ACTIVE, previous.damageGroupIndex, previous.damageWithinGroupIndex + 1, damaged );
-                        current.parent = previous;
-                        if ( !cache.containsKey( current ) )
-                        {
-                            cache.put( current, current );
-                            previous.next.add( current );
-                            queue.offer( current );
-                            current.parent = previous;
-                        }
-                        else
-                        {
-                            current.finished = true;
-                            queue.offer( cache.get( current ) );
-                        }
+                        updateCacheAndQueue( cache, previous, current, queue );
                         continue;
                     }
                 }
@@ -262,38 +173,27 @@ public class NonUnionEngineer
                         }
 
                         Pointer current = new Pointer( currentCharIndex, DamageLaydown.ACTIVE, previous.damageGroupIndex, previous.damageWithinGroupIndex + 1, damaged );
-                        current.parent = previous;
-                        if ( !cache.containsKey( current ) )
-                        {
-                            cache.put( current, current );
-                            previous.next.add( current );
-                            queue.offer( current );
-                            current.parent = previous;
-                        }
-                        else
-                        {
-                            current.finished = true;
-                            queue.offer( cache.get( current ) );
-                        }
+                        updateCacheAndQueue( cache, previous, current, queue );
                         continue;
                     }
 
                     if ( previous.damageGroupIndex < damageCount.length )
                     {
                         Pointer current = new Pointer( currentCharIndex, DamageLaydown.ACTIVE, previous.damageGroupIndex, previous.damageWithinGroupIndex + 1, damaged );
-                        current.parent = previous;
-                        if ( !cache.containsKey( current ) )
-                        {
-                            cache.put( current, current );
-                            previous.next.add( current );
-                            queue.offer( current );
-                            current.parent = previous;
-                        }
-                        else
-                        {
-                            current.finished = true;
-                            queue.offer( cache.get( current ) );
-                        }
+                        updateCacheAndQueue( cache, previous, current, queue );
+                        //                        current.parent = previous;
+//                        if ( !cache.containsKey( current ) )
+//                        {
+//                            cache.put( current, current );
+//                            previous.next.add( current );
+//                            queue.offer( current );
+//                            current.parent = previous;
+//                        }
+//                        else
+//                        {
+//                            current.finished = true;
+//                            queue.offer( cache.get( current ) );
+//                        }
                         continue;
                     }
 
@@ -308,7 +208,7 @@ public class NonUnionEngineer
 
         System.out.println("cache hits: " + cacheHits);
         long rootTotal = rootPoint.total;
-        return total;
+        return rootTotal; // total;
     }
 
     protected static void updateCacheAndQueue( Map<Pointer,Map<Pointer,Pointer>> cache, Pointer previous, Pointer current, Queue<Pointer> queue )
