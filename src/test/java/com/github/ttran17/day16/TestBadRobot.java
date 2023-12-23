@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.ttran17.AdventUtils;
 import com.github.ttran17.TestAdventUtils;
+import com.github.ttran17.util.Direction;
 
 public class TestBadRobot
 {

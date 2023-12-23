@@ -1,4 +1,4 @@
-package com.github.ttran17.day16;
+package com.github.ttran17.util;
 
 public enum Direction
 {

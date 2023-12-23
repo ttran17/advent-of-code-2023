@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.ttran17.util.Direction;
+
 public class Grid
 {
     protected final int nRows;

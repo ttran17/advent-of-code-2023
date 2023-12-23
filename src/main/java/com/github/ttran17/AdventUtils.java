@@ -65,4 +65,31 @@ public class AdventUtils
     {
         long accept( List<String> lines );
     }
+
+    public static void main(String[] args )
+    {
+        String main = "src/main/java";
+        String test = "src/test/java";
+        String resources = "src/main/resources";
+
+        String fqdn = "com/github/ttran17";
+
+        for ( int day = 1; day < 26; day++ )
+        {
+            if ( !Path.of( main ).resolve( fqdn ).resolve( "day"+day ).toFile( ).exists( ) )
+            {
+                Path.of( main ).resolve( fqdn ).resolve( "day"+day ).toFile( ).mkdirs( );
+            }
+
+            if ( !Path.of( test ).resolve( fqdn ).resolve( "day"+day ).toFile( ).exists( ) )
+            {
+                Path.of( test ).resolve( fqdn ).resolve( "day"+day ).toFile( ).mkdirs( );
+            }
+
+            if ( !Path.of( resources ).resolve( "day" ).resolve( String.valueOf( day ) ).toFile( ).exists( ) )
+            {
+                Path.of( resources ).resolve( "day" ).resolve( String.valueOf( day ) ).toFile( ).mkdirs( );
+            }
+        }
+    }
 }

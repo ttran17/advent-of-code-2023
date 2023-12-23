@@ -1,5 +1,7 @@
 package com.github.ttran17.day16;
 
+import com.github.ttran17.util.Direction;
+
 public class BadRobot
 {
 

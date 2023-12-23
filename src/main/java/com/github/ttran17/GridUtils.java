@@ -74,8 +74,6 @@ public class GridUtils
      */
     public static <T> long Area( T[] cells, CellCoordsAccessor<T> accessor )
     {
-        // int L = cells.length - 1; // -1 because L is a loop and first and last cells are the same
-
         long L = 0;
 
         long x0 = accessor.getCol( cells[0] );
