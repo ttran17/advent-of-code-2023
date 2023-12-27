@@ -21,6 +21,10 @@ public class AdventUtils
         return RESOURCES.resolve( String.valueOf( day ) ).resolve( "input.txt" ).toFile( );
     }
 
+    public static List<String> getLines( int day ) {
+        return readLines( getInputFile( day ));
+    }
+
     public static List<String> readLines( File inputFile )
     {
         List<String> lines = new ArrayList<>( );
