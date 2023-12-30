@@ -26,4 +26,15 @@ public enum Direction
     {
         return dCol;
     }
+
+    public Direction opposite( )
+    {
+        return switch ( this )
+        {
+            case NORTH -> SOUTH;
+            case WEST -> EAST;
+            case SOUTH -> NORTH;
+            case EAST -> WEST;
+        };
+    }
 }
